@@ -32,7 +32,7 @@
 
         function speak(text) {
             const utterance = new SpeechSynthesisUtterance(text);
-            window.speechSynthesis.cancel();
+            utterance.rate=0.7;
             synth.speak(utterance);
         }
 
