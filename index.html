@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rabbit and Carrot</title>
+</head>
+<body>
+    <button onclick="initialNarration()" id="startBtn">Start the Quiz !!</button>
+    <div id="textDisplay">
+        <p>A rabbit is eating carrot that is fresh from the garden and orange in color.</p>
+    </div>
+
+    <div id="question1">
+        <p>Who is eating a carrot?</p>
+        <input type="text" id="answer1">
+        <button onclick="recordAnswer(1)">Record Your Answer</button>
+    </div>
+
+    <div id="question2">
+        <p>What is the rabbit eating?</p>
+        <input type="text" id="answer2">
+        <button onclick="recordAnswer(2)" disabled>Record Your Answer</button>
+    </div>
+
+    <script>
+        const synth = window.speechSynthesis;
+        const textDisplay = document.getElementById('textDisplay');
+        const answer1Input = document.getElementById('answer1');
+        const answer2Input = document.getElementById('answer2');
+        const startBtn = document.getElementById('startBtn');
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.cancel();
+            synth.speak(utterance);
+        }
+
+        function initialNarration() {
+            // Initial narration
+            console.log("hello");
+            speak("A rabbit is eating carrot that is fresh from the garden and orange in color.");
+
+            // Question 1 narration
+            setTimeout(function() {
+                speak("Who is eating a carrot?");
+            }, 7000); // Wait for 5 seconds before asking the question
+        }
+
+        // Call initialNarration function when DOM content is loaded
+        // Since autoplay is not allowed in chrome as per what i've googled
+        document.addEventListener('DOMContentLoaded', function() {
+            startBtn.click();
+        });
+
+        function recordAnswer(questionNumber) {
+            let answer;
+            if (questionNumber === 1) {
+                answer = answer1Input.value;
+                // Enable Question 2 button and start Question 2 narration
+                document.getElementById('question2').querySelector('button').disabled = false;
+                setTimeout(function() {
+                    speak("What is the rabbit eating?");
+                }, 1000); // Start Question 2 narration immediately after answering Question 1
+            } else if (questionNumber === 2) {
+                answer = answer2Input.value;
+            }
+            alert("Your answer has been recorded: " + answer);
+        }
+    </script>
+</body>
+</html>
